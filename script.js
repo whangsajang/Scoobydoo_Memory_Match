@@ -116,11 +116,6 @@
         });
     }
 
-    /*function gameWon(){
-     if(matchCounter == totalMatch){
-     console.log('You\'ve Won');
-     }
-     }*/
 
     /*********** API CALL TO SPOTIFY FOR ARTIST  ************/
     function spotifyArtist() {
@@ -130,8 +125,8 @@
             method: 'get',
             success: function (response) {
                 console.log(response);
+                var artistId = response.artists.items[0].id;
                 var mysteryArtist = response.artists.items[ 0 ].images[ 1 ].url;
-                console.log(mysteryArtist);
                 var addArtist = $('<img>').attr('src', mysteryArtist).css({
                     position: 'absolute',
                     top: '0',
@@ -140,19 +135,24 @@
                     width: '100%',
                     zIndex: '0'
                 });
-                $('.mystery_artist').append(addArtist)
+                $('.mystery_artist').append(addArtist);
+                getTrack(artistId);
             },
             error: function (response) {
                 console.log('We didn\'t get a response');
             }
         });
-
+    }
+ /*********** API CALL TO SPOTIFY FOR TOP SONG  ************/
+ function getTrack(artistId){
         $.ajax({
             dataType: 'json',
-            url: 'https://api.spotify.com/v1/albums/' + '6vWDO969PvNqNYHIOW5v0m',
+            url: 'https://api.spotify.com/v1/artists/' + artistId + '/top-tracks?country=US',
             method: 'get',
             success: function (response) {
-                console.log(response);
+                var titleSong = response.tracks[0].preview_url;
+                console.log(titleSong);
+                mystery(titleSong);
             }
         });
     }
@@ -168,18 +168,10 @@
     }
 
 
-    function timer() {
-        var minutes = 2;
-        var seconds = 60;
-        $('.timer').html(minutes + ':' + seconds);
-
-        setTimeout('timer()', 1000);
-    }
-
-    /*********** FUNCTION FOR CERTAIN CHARACTER MATCHES ************/
+    /*********** FUNCTION FOR SPECIAL CHARACTER MATCHES ************/
     var numb = [ '1', '2', '3', '4', '5', '6' ];
 
-    function mystery() {
+    function mystery(titleSong) {
         var scooby = $(firstCard).find('.frontimage').attr('src');
         var scooby2 = $(secondCard).find('.frontimage').attr('src');
         for (var x = 0; x < cardImg.length - 3; x++) {
@@ -189,10 +181,22 @@
                 $('[datatype=' + numb[ random ] + ']').hide();
                 numb.splice(random, 1);
                 console.log("array:", numb);
-
+                return;
             }
 
         }
+        if(scooby == 'image/ghost.jpg' || 'image/pirate.jpg' && scooby2 == 'image/ghost.jpg' || 'image/pirate.jpg'){
+            setTimeout(function() {
+                $('#game_area').html('');
+                randomizeCards();
+                $('.question').show();
+            }, 1500);
+        }
+        else if(scooby == 'image/clue.jpg' && scooby2 == 'image/clue.jpg'){
+                titleSong.play();
+        }
+
+
     }
 
     $(document).ready(function () {
