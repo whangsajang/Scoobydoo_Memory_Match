@@ -1,179 +1,180 @@
-var firstCard = null;
-var secondCard = null;
-var matchCounter = 0;
-var canClick = true;
-var attempts = 0;
-var accuracy = 0;
-var gamesPlayed = 0;
-var artist = 'Beyonce';
-var cardImg = [
-    'image/scooby1.jpg',
-    'image/scooby2.jpg',
-    'image/scooby3.jpg',
-    'image/scooby4.jpg',
-    'image/scooby5.jpg',
-    'image/scooby6.jpg',
-    'image/scooby7.jpg',
-    'image/scooby8.jpg',
-    'image/scooby9.jpg'
-];
-/*********** SETS CARDS CLICKED ***********/
-function cardClick(card) {
-    if (firstCard === null) {
-        firstCard = card;
-        $(firstCard).find('.card').addClass('flipcard');
+ var firstCard = null;
+    var secondCard = null;
+    var matchCounter = 0;
+    var canClick = true;
+    var attempts = 0;
+    var accuracy = 0;
+    var gamesPlayed = 0;
+    var artist = 'Beyonce';
+    var cardImg = [
+        'image/scooby.jpg',
+        'image/shaggy.jpg',
+        'image/velma.jpg',
+        'image/fred.jpg',
+        'image/scrappy.jpg',
+        'image/daphne.jpg',
+        'image/ghost.jpg',
+        'image/pirate.jpg',
+        'image/clue.jpg'
+    ];
+
+    /*********** SETS CARDS CLICKED ***********/
+    function cardClick(card) {
+        if (firstCard === null) {
+            firstCard = card;
+            $(firstCard).find('.card').addClass('flipcard');
+        }
+        else {
+            secondCard = card;
+            canClick = false;
+            $(secondCard).find('.card').addClass('flipcard');
+            cardMatch();
+        }
     }
-    else {
-        secondCard = card;
-        canClick = false;
-        $(secondCard).find('.card').addClass('flipcard');
-        cardMatch();
+
+    /*********** RESETS CARDS  ************/
+    function resetCard() {
+        firstCard = null;
+        secondCard = null;
+        canClick = true;
     }
-}
 
-/*********** RESETS CARDS  ************/
-function resetCard() {
-    firstCard = null;
-    secondCard = null;
-    canClick = true;
-}
-
-/*********** RESETS STATS ************/
-function resetStats() {
-    gamesPlayed++;
-    accuracy = 0;
-    attempts = 0;
-}
-
-/*********** RESETS THE WHOLE GAME ************/
-function reset() {
-    $('#game_area').html('');
-    resetStats();
-    displayStats();
-    resetCard();
-    randomizeCards();
-    $('.card').removeClass('flipcard');
-
-}
-
-/*********** DISPLAY STATS TO THE DOM  ************/
-function displayStats() {
-    $('.games_played .value').text(gamesPlayed);
-    $('.attempts .value').text(attempts);
-    if (attempts > 0) {
-        var accuracyAttempts = Math.ceil((matchCounter / attempts) * 100);
-        $('.accuracy .value').text(accuracyAttempts + '%');
+    /*********** RESETS STATS ************/
+    function resetStats() {
+        gamesPlayed++;
+        accuracy = 0;
+        attempts = 0;
     }
-    else {
-        $('.accuracy .value').text('');
-    }
-}
 
-/*********** CHECKS FOR CARD MATCH  ************/
-function cardMatch() {
-    if ($(firstCard).find('.frontimage').attr('src') == $(secondCard).find('.frontimage').attr('src')) {
-        matchCounter++;
-        attempts++;
-        mystery();
+    /*********** RESETS THE WHOLE GAME ************/
+    function reset() {
+        $('#game_area').html('');
+        resetStats();
         displayStats();
         resetCard();
+        randomizeCards();
+        $('.card').removeClass('flipcard');
+
     }
-    else {
-        setTimeout(function () {
-            $(firstCard).removeClass('flipcard');
-            $(secondCard).removeClass('flipcard');
+
+    /*********** DISPLAY STATS TO THE DOM  ************/
+    function displayStats() {
+        $('.games_played .value').text(gamesPlayed);
+        $('.attempts .value').text(attempts);
+        if (attempts > 0) {
+            var accuracyAttempts = Math.ceil((matchCounter / attempts) * 100);
+            $('.accuracy .value').text(accuracyAttempts + '%');
+        }
+        else {
+            $('.accuracy .value').text('');
+        }
+    }
+
+    /*********** CHECKS FOR CARD MATCH  ************/
+    function cardMatch() {
+        if ($(firstCard).find('.frontimage').attr('src') == $(secondCard).find('.frontimage').attr('src')) {
+            matchCounter++;
             attempts++;
+            mystery();
             displayStats();
             resetCard();
-        }, 1500)
-    }
-}
-
-/*********** RANDOMIZES THE CARD DYNAMICALLY APPENDS TO DOM ************/
-function randomizeCards() {
-    var doubleCards = cardImg.concat(cardImg);
-    var randomArray = [];
-    for (var x = doubleCards.length; x > 0; x--) {
-        var randomCard = Math.floor(Math.random() * doubleCards.length);
-        randomArray.push(doubleCards[ randomArray ]);
-        var cardDiv = $('<div>').addClass('card');
-        var frontDiv = $('<div>').addClass('front');
-        var frontImg = $('<img>').addClass('frontimage').attr('src', doubleCards[ randomCard ]);
-        var backDiv = $('<div>').addClass('back');
-        var backImg = $('<img>').addClass('backimage').attr('src', 'image/cardback.jpg');
-        var frontCard = $(frontDiv).append(frontImg);
-        var backCard = $(backDiv).append(backImg);
-        var bothCards = $(cardDiv).append(frontCard, backCard);
-        $('#game_area').append(bothCards);
-        doubleCards.splice(randomCard, 1);
-    }
-    $('.card').click(function () {
-        if (canClick) {
-            cardClick(this);
-            $(this).addClass('flipcard');
         }
-    });
-}
-
-/*function gameWon(){
- if(matchCounter == totalMatch){
- console.log('You\'ve Won');
- }
- }*/
-
-/*********** API CALL TO SPOTIFY FOR ARTIST  ************/
-function spotifyArtist() {
-    $.ajax({
-        dataType: 'json',
-        url: "https://api.spotify.com/v1/search?q=" + artist + "&type=artist",
-        method: 'get',
-        success: function (response) {
-            console.log(response);
-            var mysteryArtist = response.artists.items[ 0 ].images[ 1 ].url;
-            console.log(mysteryArtist);
-            var addArtist = $('<img>').attr('src', mysteryArtist).css({
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                height: '94%',
-                width: '100%',
-                zIndex: '0'
-            });
-            $('.mystery_artist').append(addArtist)
-        },
-        error: function (response) {
-            console.log('We didn\'t get a response');
+        else {
+            setTimeout(function () {
+                $(firstCard).removeClass('flipcard');
+                $(secondCard).removeClass('flipcard');
+                attempts++;
+                displayStats();
+                resetCard();
+            }, 1500)
         }
-    });
-
-    $.ajax({
-        dataType: 'json',
-        url: 'https://api.spotify.com/v1/albums/' + '6vWDO969PvNqNYHIOW5v0m',
-        method: 'get',
-        success: function (response) {
-            console.log(response);
-        }
-    });
-}
-
-/*********** CHECKS TO SEE IF ARTIST IS CORRECT  ************/
-function checkGuest() {
-    var playerGuess = $('.input_artist').val();
-    var newGuess = playerGuess[ 0 ].toUpperCase() + playerGuess.slice(1);
-
-    if (newGuess == artist) {
-        console.log('correct');
     }
-}
+
+    /*********** RANDOMIZES THE CARD DYNAMICALLY APPENDS TO DOM ************/
+    function randomizeCards() {
+        var doubleCards = cardImg.concat(cardImg);
+        var randomArray = [];
+        for (var x = doubleCards.length; x > 0; x--) {
+            var randomCard = Math.floor(Math.random() * doubleCards.length);
+            randomArray.push(doubleCards[ randomArray ]);
+            var cardDiv = $('<div>').addClass('card');
+            var frontDiv = $('<div>').addClass('front');
+            var frontImg = $('<img>').addClass('frontimage').attr('src', doubleCards[ randomCard ]);
+            var backDiv = $('<div>').addClass('back');
+            var backImg = $('<img>').addClass('backimage').attr('src', 'image/cardback.jpg');
+            var frontCard = $(frontDiv).append(frontImg);
+            var backCard = $(backDiv).append(backImg);
+            var bothCards = $(cardDiv).append(frontCard, backCard);
+            $('#game_area').append(bothCards);
+            doubleCards.splice(randomCard, 1);
+        }
+        $('.card').click(function () {
+            if (canClick) {
+                cardClick(this);
+                $(this).addClass('flipcard');
+            }
+        });
+    }
+
+    /*function gameWon(){
+     if(matchCounter == totalMatch){
+     console.log('You\'ve Won');
+     }
+     }*/
+
+    /*********** API CALL TO SPOTIFY FOR ARTIST  ************/
+    function spotifyArtist() {
+        $.ajax({
+            dataType: 'json',
+            url: "https://api.spotify.com/v1/search?q=" + artist + "&type=artist",
+            method: 'get',
+            success: function (response) {
+                console.log(response);
+                var mysteryArtist = response.artists.items[ 0 ].images[ 1 ].url;
+                console.log(mysteryArtist);
+                var addArtist = $('<img>').attr('src', mysteryArtist).css({
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    height: '94%',
+                    width: '100%',
+                    zIndex: '0'
+                });
+                $('.mystery_artist').append(addArtist)
+            },
+            error: function (response) {
+                console.log('We didn\'t get a response');
+            }
+        });
+
+        $.ajax({
+            dataType: 'json',
+            url: 'https://api.spotify.com/v1/albums/' + '6vWDO969PvNqNYHIOW5v0m',
+            method: 'get',
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    /*********** CHECKS TO SEE IF ARTIST IS CORRECT  ************/
+    function checkGuest() {
+        var playerGuess = $('.input_artist').val();
+        var newGuess = playerGuess[ 0 ].toUpperCase() + playerGuess.slice(1);
+
+        if (newGuess == artist) {
+            console.log('correct');
+        }
+    }
 
 
-function timer() {
-    var minutes = 2;
-    var seconds = 60;
-    $('.timer').html(minutes + ':' + seconds);
+    function timer() {
+        var minutes = 2;
+        var seconds = 60;
+        $('.timer').html(minutes + ':' + seconds);
 
-    setTimeout('timer()', 1000);
-}
+        setTimeout('timer()', 1000);
+    }
 
     /*********** FUNCTION FOR CERTAIN CHARACTER MATCHES ************/
     var numb = [ '1', '2', '3', '4', '5', '6' ];
@@ -181,11 +182,14 @@ function timer() {
     function mystery() {
         var scooby = $(firstCard).find('.frontimage').attr('src');
         var scooby2 = $(secondCard).find('.frontimage').attr('src');
-        for (var x = 0; x < cardImg.length - 2; x++) {
+        for (var x = 0; x < cardImg.length - 3; x++) {
             if (scooby == cardImg[ x ] && scooby2 == cardImg[ x ]) {
-                var random = Math.floor(Math.random() * numb.length);
+                var random = Math.floor(Math.random() * (numb.length - 1));
+                console.log("random: " + random);
+                $('[datatype=' + numb[ random ] + ']').hide();
                 numb.splice(random, 1);
-                $('[datatype=' + random + ']').hide();
+                console.log("array:", numb);
+
             }
 
         }
