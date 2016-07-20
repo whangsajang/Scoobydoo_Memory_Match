@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Memory Match</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+    <script src="http://learning-fuze.github.io/memory_match/v0.1/script.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Allan:bold' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cardo' rel='stylesheet' type='text/css'>
+    <script src="script.js"></script>
+
+</head>
+<body>
+<div class="header">
+    <img src="image/title.png">
+    <h1 class="title"></h1>
+    <nav>
+        <ul>
+            <li><button type="button" class='option' ><a href="#openModal">How to Play</a></button></li>
+            <li><button class='option'>Settings</button></li>
+        </ul>
+    </nav>
+</div>
+<div class="main_container">
+    <div id="stats_container">
+        <h2 class="stats_title">Game Stats</h2>
+        <ul class="game_stats">
+            <li class="games_played">
+                <span class='stats'>Games Played</span>
+                <span class="value"></span>
+            </li>
+            <li class="attempts">
+                <span class='stats'>Attempts</span>
+                <span class="value"></span>
+            </li>
+            <li class="accuracy">
+                <span class='stats'>Accuracy</span>
+                <span class="value"></span>
+            </li>
+        </ul>
+        <button class="reset">Reset</button>
+    </div>
+    <div id="game_area">
+
+    </div>
+    <div class="mystery">
+        <div class="mystery_artist">
+
+            <div class="question_container">
+                <img src="image/question1.jpg" class="question" datatype="1">
+            </div>
+            <div class="question_container">
+                <img src="image/question2.jpg" class="question" datatype="2">
+            </div>
+            <div class="question_container">
+                <img src="image/question3.jpg" class="question" datatype="3">
+            </div>
+            <div class="question_container">
+                <img src="image/question4.jpg" class="question" datatype="4">
+            </div>
+            <div class="question_container">
+                <img src="image/question5.jpg" class="question" datatype="5">
+            </div>
+            <div class="question_container">
+                <img src="image/question6.jpg" class="question" datatype='6'>
+            </div>
+        </div>
+        <input type="text" placeholder="Guess the Artist" class="input_artist">
+        <button class="input_button">Solve</button>
+    </div>
+</div>
+<audio>
+    <source href="https://api.spotify.com/v1/albums/2UJwKSBUz6rtW4QLK74kQu">
+</audio>
+</body>
+</html>
