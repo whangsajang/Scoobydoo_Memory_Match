@@ -5,7 +5,7 @@
     var attempts = 0;
     var accuracy = 0;
     var gamesPlayed = 0;
-    var artist = 'Beyonce';
+    var artist = ['beyonce', 'katy perry', 'taylor swift', 'justin bieber', 'adele', 'britney spears']
     var cardImg = [
         'image/scooby.jpg',
         'image/shaggy.jpg',
@@ -17,6 +17,7 @@
         'image/pirate.jpg',
         'image/clue.jpg'
     ];
+    var track;
 
     /*********** SETS CARDS CLICKED ***********/
     function cardClick(card) {
@@ -119,9 +120,10 @@
 
     /*********** API CALL TO SPOTIFY FOR ARTIST  ************/
     function spotifyArtist() {
+        var randomArtist = Math.floor(Math.random() * artist.length);
         $.ajax({
             dataType: 'json',
-            url: "https://api.spotify.com/v1/search?q=" + artist + "&type=artist",
+            url: "https://api.spotify.com/v1/search?q=" + artist[randomArtist] + "&type=artist",
             method: 'get',
             success: function (response) {
                 console.log(response);
@@ -151,19 +153,21 @@
             method: 'get',
             success: function (response) {
                 var titleSong = response.tracks[0].preview_url;
-                console.log(titleSong);
-                mystery(titleSong);
+                track = titleSong;
+
             }
         });
+
     }
 
     /*********** CHECKS TO SEE IF ARTIST IS CORRECT  ************/
     function checkGuest() {
         var playerGuess = $('.input_artist').val();
-        var newGuess = playerGuess[ 0 ].toUpperCase() + playerGuess.slice(1);
-
-        if (newGuess == artist) {
-            console.log('correct');
+        $('.input_artist').html('');
+        for(var x = 0; x < artist.length; x++) {
+            if (playerGuess == artist[x]) {
+                console.log('correct');
+            }
         }
     }
 
@@ -171,21 +175,27 @@
     /*********** FUNCTION FOR SPECIAL CHARACTER MATCHES ************/
     var numb = [ '1', '2', '3', '4', '5', '6' ];
 
-    function mystery(titleSong) {
+    function mystery() {
+
         var scooby = $(firstCard).find('.frontimage').attr('src');
         var scooby2 = $(secondCard).find('.frontimage').attr('src');
         for (var x = 0; x < cardImg.length - 3; x++) {
             if (scooby == cardImg[ x ] && scooby2 == cardImg[ x ]) {
                 var random = Math.floor(Math.random() * (numb.length - 1));
-                console.log("random: " + random);
-                $('[datatype=' + numb[ random ] + ']').fadeOut('slow');
+                $('[datatype=' + numb[ random ] + ']').fadeOut(2000);
                 numb.splice(random, 1);
-                console.log("array:", numb);
                 return;
             }
 
         }
-        if(scooby == 'image/ghost.jpg' || 'image/pirate.jpg' && scooby2 == 'image/ghost.jpg' || 'image/pirate.jpg'){
+        if(scooby == 'image/ghost.jpg'  && scooby2 == 'image/ghost.jpg'){
+            setTimeout(function() {
+                $('#game_area').html('');
+                randomizeCards();
+                $('.question').show();
+            }, 1500);
+        }
+            else if(scooby == 'image/pirate.jpg' && scooby2 == 'mage/pirate.jpg'){
             setTimeout(function() {
                 $('#game_area').html('');
                 randomizeCards();
@@ -193,7 +203,14 @@
             }, 1500);
         }
         else if(scooby == 'image/clue.jpg' && scooby2 == 'image/clue.jpg'){
-                titleSong.play();
+                var audio = $('<audio>').attr('autoplay', true).addClass('vol');
+                var source = $('<source>').attr('src', track);
+                var music = $(audio).append(source);
+                $('.main_container').append(music);
+                $('.vol')[0].volume = 0.1;
+            setTimeout(function(){
+                $('.vol')[0].pause();
+            }, 6000);
         }
 
 
