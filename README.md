@@ -1,13 +1,14 @@
 # Scoobydoo Memory Match
 
-### **Overview**
+## **Overview**
 
-##### Scoobydoo Memory match is an 18 card game in which I've created a twist on the game where you have
-to match all of the Scooby Doo cast to enable the solving of the mystery artist. The technologies I've used for
-this game are HTML5, CSS3, Responsive Design, Javascript.
+Scoobydoo Memory match is an 18 card game where the player has to creect match the characters. But this game comes with a twist where you're supposed to only match the cast of Scooby Doo
+to enable the mystery artist. Added special feature for when they match the clue card, a track is played to give a hint on who the artist is, this is all done by getting information from the spotify api. The technologies I've used for this game are HTML5, CSS3, Responsive Design, Javascript, Ajax.
 
-### **Functions I want to Add**
+## **Features I want to add**
 
--[ ] Timer
--[ ] Coding done in Object Oriented Programming
+* Timer
+* Coding done in Object Oriented Programming
+
+
 
