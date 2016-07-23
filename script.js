@@ -5,7 +5,7 @@
     var attempts = 0;
     var accuracy = 0;
     var gamesPlayed = 0;
-    var artist = ['beyonce', 'katy perry', 'taylor swift', 'justin bieber', 'adele', 'britney spears']
+    var artist = ['beyonce', 'katy perry', 'taylor swift', 'justin bieber', 'adele', 'britney spears'];
     var cardImg = [
         'image/scooby.jpg',
         'image/shaggy.jpg',

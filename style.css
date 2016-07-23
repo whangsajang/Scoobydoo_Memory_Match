@@ -38,8 +38,8 @@ body{
     text-decoration: none;
     vertical-align: middle;
     position: relative;
-    top: 10%;
-    left: 10%;
+    top: 50px;
+    left: 25%;
 }
 
 .option:hover {
@@ -136,6 +136,7 @@ ul{
 }
 
 .reset:hover {
+    cursor: pointer;
     border: 3px solid #0a3c59;
     text-shadow: #1e4158 0 1px 0;
     background: #3e779d;
@@ -145,18 +146,6 @@ ul{
     background: -ms-linear-gradient(top, #65a9d7, #3e779d);
     background: -o-linear-gradient(top, #65a9d7, #3e779d);
     background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
-    color: #fff;
-}
-.reset:active {
-    text-shadow: #1e4158 0 1px 0;
-    border: 3px solid #0a3c59;
-    background: #65a9d7;
-    background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
-    background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
-    background: -moz-linear-gradient(top, #3e779d, #65a9d7);
-    background: -ms-linear-gradient(top, #3e779d, #65a9d7);
-    background: -o-linear-gradient(top, #3e779d, #65a9d7);
-    background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
     color: #fff;
 }
 
@@ -178,6 +167,12 @@ ul{
     border: 2px solid black;
     transition-duration: .7s;
     transform-style: preserve-3d;
+}
+
+.back:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+
 }
 
 .front, .back{
@@ -223,8 +218,9 @@ ul{
 .input_artist {
     position: relative;
     width: 60%;
-    height: 8%;
+    height: 7%;
     left: 20%;
+    border: 4px solid black;
 }
 
 .question_container{
@@ -257,6 +253,31 @@ ul{
 
 .input_button {
     position: relative;
-    right: 5%;
+    top: 40px;
+    right: 65px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border: 3px solid #a12727;
+    border-radius: 32px;
+    background: #262323;
+    background: -webkit-gradient(linear, left top, left bottom, from(#262323), to(#8f17ff));
+    background: -moz-linear-gradient(top, #262323, #8f17ff);
+    background: linear-gradient(to bottom, #262323, #8f17ff);
+    text-shadow: #591717 1px 1px 1px;
+    font: normal normal bold 20px arial;
+    color: #ffffff;
+    text-decoration: none;
 
+}
+
+.input_button:hover {
+    cursor: pointer;
+    border: 3px solid #3d80c5;
+    background: #5fc7ff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#5fc7ff), to(#3b7abe));
+    background: -moz-linear-gradient(top, #5fc7ff, #3b7abe);
+    background: linear-gradient(to bottom, #5fc7ff, #3b7abe);
+    color: #ffffff;
+    text-decoration: none;
 }
