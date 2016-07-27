@@ -67,7 +67,7 @@
             $('.accuracy .value').text(accuracyAttempts + '%');
         }
         else {
-            $('.accuracy .value').text('');
+            $('.accuracy .value').text('0%');
         }
     }
 
@@ -76,6 +76,8 @@
         if ($(firstCard).find('.frontimage').attr('src') == $(secondCard).find('.frontimage').attr('src')) {
             matchCounter++;
             attempts++;
+            $(firstCard).fadeOut(3000);
+            $(secondCard).fadeOut(3000);
             mystery();
             displayStats();
             resetCard();
@@ -113,6 +115,7 @@
             if (canClick) {
                 cardClick(this);
                 $(this).addClass('flipcard');
+                $('.cardSound')[0].play();
             }
         });
     }
@@ -194,8 +197,8 @@
                 $('#game_area').html('');
                 randomizeCards();
                 $('.question').show();
-                reset();
                 spotifyArtist();
+                reset();
             }, 1500);
         }
             else if(scooby == 'image/pirate.jpg' && scooby2 == 'image/pirate.jpg'){
@@ -208,6 +211,7 @@
             }, 1500);
         }
         else if(scooby == 'image/clue.jpg' && scooby2 == 'image/clue.jpg'){
+                $('.theme')[0].pause();
                 var audio = $('<audio>').attr('autoplay', true).addClass('vol');
                 var source = $('<source>').attr('src', track);
                 var music = $(audio).append(source);
@@ -215,6 +219,7 @@
                 $('.vol')[0].volume = 0.1;
             setTimeout(function(){
                 $('.vol')[0].pause();
+                $('.theme')[0].play();
             }, 6000);
         }
 
