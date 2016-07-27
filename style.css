@@ -281,3 +281,67 @@ ul{
     color: #ffffff;
     text-decoration: none;
 }
+
+@media screen and (min-width: 1600px){
+    .main_container{
+        max-width: 1600px;
+    }
+    #game_area{
+        max-width: 70%;
+    }
+    .card{
+        width: 200px;
+        height: 200px;
+        margin: 16px;
+    }
+    .game_stats{
+        margin-left: 17%;
+        font-size: 1.7em;
+    }
+    .input_button{
+        top: 50px;
+        border: 6px solid #a12727;
+    }
+    .mystery{
+        width: 18vw;
+        height: 50vh;
+    }
+    #stats_container{
+        width: 18vw;
+        height: 50vh;
+    }
+}
+
+@media screen and (max-width: 1065px){
+    .header{
+        height:2vh;
+    }
+    .title{
+        height: 5vh;
+    }
+    .main_container{
+        flex-wrap:wrap;
+    }
+    #game_area{
+        order:0;
+
+        height: auto;
+        margin: auto;
+    }
+    #stats_container{
+        float:none;
+        order: 1;
+        height: auto;
+        margin: auto;
+    }
+    .card{
+        width: 70px;
+        height: 70px;
+    }
+    .mystery{
+        float: none;
+        height: auto;
+        margin: auto;
+        order: 2;
+    }
+}
