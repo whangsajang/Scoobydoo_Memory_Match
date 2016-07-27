@@ -163,12 +163,13 @@
     /*********** CHECKS TO SEE IF ARTIST IS CORRECT  ************/
     function checkGuest() {
         var playerGuess = $('.input_artist').val();
-        $('.input_artist').html('');
+
         for(var x = 0; x < artist.length; x++) {
             if (playerGuess == artist[x]) {
                 console.log('correct');
             }
         }
+        $('.input_artist').val('');
     }
 
 
@@ -193,13 +194,17 @@
                 $('#game_area').html('');
                 randomizeCards();
                 $('.question').show();
+                reset();
+                spotifyArtist();
             }, 1500);
         }
-            else if(scooby == 'image/pirate.jpg' && scooby2 == 'mage/pirate.jpg'){
+            else if(scooby == 'image/pirate.jpg' && scooby2 == 'image/pirate.jpg'){
             setTimeout(function() {
                 $('#game_area').html('');
                 randomizeCards();
                 $('.question').show();
+                spotifyArtist();
+                reset();
             }, 1500);
         }
         else if(scooby == 'image/clue.jpg' && scooby2 == 'image/clue.jpg'){
