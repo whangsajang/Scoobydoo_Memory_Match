@@ -49,12 +49,20 @@
 
     /*********** RESETS THE WHOLE GAME ************/
     function reset() {
+        var timerStop = setInterval(blink,1000);
         $('#game_area').html('');
         resetStats();
         displayStats();
         resetCard();
         randomizeCards();
+        clearInterval(timerStop);
         $('.card').removeClass('flipcard');
+        $('.mysterySolved').css('display', 'none');
+        $('.theme')[0].pause();
+        $('.question').show();
+        clearInterval(timerStop);
+        spotifyArtist();
+
 
     }
 
@@ -169,13 +177,21 @@
 
         for(var x = 0; x < artist.length; x++) {
             if (playerGuess == artist[x]) {
-                console.log('correct');
+                setInterval(blink, 1000);
+                for(var x = 0; x < numb.length; x++){
+                    $('[datatype=' + numb[ x ] + ']').fadeOut(2000);
+                    $('.theme')[0].play();
+                }
             }
         }
+
         $('.input_artist').val('');
     }
 
-
+    function blink(){
+        $('.mysterySolved').fadeOut(500);
+        $('.mysterySolved').fadeIn(500);
+    }
     /*********** FUNCTION FOR SPECIAL CHARACTER MATCHES ************/
     var numb = [ '1', '2', '3', '4', '5', '6' ];
 
@@ -219,7 +235,6 @@
                 $('.vol')[0].volume = 0.1;
             setTimeout(function(){
                 $('.vol')[0].pause();
-                $('.theme')[0].play();
             }, 6000);
         }
 

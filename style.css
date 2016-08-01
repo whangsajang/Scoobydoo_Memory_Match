@@ -282,6 +282,13 @@ ul{
     text-decoration: none;
 }
 
+.mysterySolved {
+    position:absolute;
+    top: 25%;
+    left: 29%;
+    display: none;
+}
+
 @media screen and (min-width: 1600px){
     .main_container{
         max-width: 1600px;
@@ -351,3 +358,5 @@ ul{
         order: 2;
     }
 }
+
+
