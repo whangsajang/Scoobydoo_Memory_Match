@@ -21,14 +21,16 @@
 
     /*********** SETS CARDS CLICKED ***********/
     function cardClick(card) {
+        if($(card).hasClass('flipcard')){
+            return
+        }
+        $(card).find('.card').addClass('flipcard');
         if (firstCard === null) {
             firstCard = card;
-            $(firstCard).find('.card').addClass('flipcard');
         }
         else {
             secondCard = card;
             canClick = false;
-            $(secondCard).find('.card').addClass('flipcard');
             cardMatch();
         }
     }
@@ -45,6 +47,7 @@
         gamesPlayed++;
         accuracy = 0;
         attempts = 0;
+        matchCounter = 0;
     }
 
     /*********** RESETS THE WHOLE GAME ************/
@@ -60,7 +63,6 @@
         $('.mysterySolved').css('display', 'none');
         $('.theme')[0].pause();
         $('.question').show();
-        clearInterval(timerStop);
         spotifyArtist();
 
 
@@ -177,14 +179,17 @@
 
         for(var x = 0; x < artist.length; x++) {
             if (playerGuess == artist[x]) {
-                setInterval(blink, 1000);
+                setInterval(function(){
+                    $('.mysterySolved').fadeOut(500);
+                    $('.mysterySolved').fadeIn(500);
+                }, 1000);
                 for(var x = 0; x < numb.length; x++){
                     $('[datatype=' + numb[ x ] + ']').fadeOut(2000);
                     $('.theme')[0].play();
                 }
             }
         }
-
+        canClick = false;
         $('.input_artist').val('');
     }
 
@@ -235,7 +240,7 @@
                 $('.vol')[0].volume = 0.1;
             setTimeout(function(){
                 $('.vol')[0].pause();
-            }, 6000);
+            }, 10000);
         }
 
 
@@ -246,7 +251,6 @@
         spotifyArtist();
         $('#stats_container').on('click', ".reset", reset);
         $('.input_button').click(function () {
-            console.log('button working');
             checkGuest();
         })
 
