@@ -52,13 +52,12 @@
 
     /*********** RESETS THE WHOLE GAME ************/
     function reset() {
-        var timerStop = setInterval(blink,1000);
         $('#game_area').html('');
         resetStats();
         displayStats();
         resetCard();
         randomizeCards();
-        clearInterval(timerStop);
+        clearInterval(winCondition);
         $('.card').removeClass('flipcard');
         $('.mysterySolved').css('display', 'none');
         $('.theme')[0].pause();
@@ -134,6 +133,7 @@
     /*********** API CALL TO SPOTIFY FOR ARTIST  ************/
     function spotifyArtist() {
         var randomArtist = Math.floor(Math.random() * artist.length);
+        mysteryArtist = artist[randomArtist];
         $.ajax({
             dataType: 'json',
             url: "https://api.spotify.com/v1/search?q=" + artist[randomArtist] + "&type=artist",
@@ -174,12 +174,12 @@
     }
 
     /*********** CHECKS TO SEE IF ARTIST IS CORRECT  ************/
+
     function checkGuest() {
         var playerGuess = $('.input_artist').val();
 
-        for(var x = 0; x < artist.length; x++) {
-            if (playerGuess == artist[x]) {
-                setInterval(function(){
+        if (playerGuess == mysteryArtist) {
+                 winCondition =  setInterval(function(){
                     $('.mysterySolved').fadeOut(500);
                     $('.mysterySolved').fadeIn(500);
                 }, 1000);
@@ -188,15 +188,12 @@
                     $('.theme')[0].play();
                 }
             }
-        }
+
         canClick = false;
         $('.input_artist').val('');
     }
 
-    function blink(){
-        $('.mysterySolved').fadeOut(500);
-        $('.mysterySolved').fadeIn(500);
-    }
+
     /*********** FUNCTION FOR SPECIAL CHARACTER MATCHES ************/
     var numb = [ '1', '2', '3', '4', '5', '6' ];
 
