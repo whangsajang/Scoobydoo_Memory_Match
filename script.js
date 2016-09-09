@@ -57,9 +57,11 @@
         displayStats();
         resetCard();
         randomizeCards();
-        clearInterval(winCondition);
+        $.when(clearInterval(winCondition)).done(function(){
+            $('.mysterySolved').css('display', 'none');
+        });
+
         $('.card').removeClass('flipcard');
-        $('.mysterySolved').hide();
         $('.theme')[0].pause();
         $('.question').show();
         spotifyArtist();
