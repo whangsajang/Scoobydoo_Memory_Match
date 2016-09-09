@@ -59,10 +59,11 @@
         randomizeCards();
         clearInterval(winCondition);
         $('.card').removeClass('flipcard');
-        $('.mysterySolved').css('display', 'none');
+        $('.mysterySolved').hide();
         $('.theme')[0].pause();
         $('.question').show();
         spotifyArtist();
+        numb = [ '1', '2', '3', '4', '5', '6' ];
 
 
     }
@@ -85,8 +86,6 @@
         if ($(firstCard).find('.frontimage').attr('src') == $(secondCard).find('.frontimage').attr('src')) {
             matchCounter++;
             attempts++;
-            $(firstCard).fadeOut(3000);
-            $(secondCard).fadeOut(3000);
             mystery();
             displayStats();
             resetCard();
@@ -187,10 +186,14 @@
                     $('[datatype=' + numb[ x ] + ']').fadeOut(2000);
                     $('.theme')[0].play();
                 }
+            canClick = false;
             }
+        else{
+            $('.input_artist').val('');
+        }
 
-        canClick = false;
         $('.input_artist').val('');
+
     }
 
 
@@ -212,18 +215,14 @@
         }
         if(scooby == 'image/ghost.jpg'  && scooby2 == 'image/ghost.jpg'){
             setTimeout(function() {
-                $('#game_area').html('');
                 randomizeCards();
-                $('.question').show();
                 spotifyArtist();
                 reset();
             }, 1500);
         }
             else if(scooby == 'image/pirate.jpg' && scooby2 == 'image/pirate.jpg'){
             setTimeout(function() {
-                $('#game_area').html('');
                 randomizeCards();
-                $('.question').show();
                 spotifyArtist();
                 reset();
             }, 1500);
